@@ -7,6 +7,7 @@ function Student() {
         let genereatedStudents = [];
         for (let index = 0; index < 50; index++) {
             genereatedStudents.push({
+                id: index,
                 name: (() => {
                     let firstName = '';
                     let lastName = '';

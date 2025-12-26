@@ -1,13 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 
 function StudentList({ students }) {
     const [search, setSearch] = useState('');
-    const [filteredStudents, setFilteredStudents] = useState([]);
 
-    useEffect(() => {
-        setFilteredStudents(students.filter(student =>
+    const filteredStudents = useMemo(() => {
+        return students.filter(student =>
             student?.name?.toLowerCase().includes(search.toLowerCase())
-        ));
+        );
     }, [search, students]);
 
     const handleSearch = (e) => {
@@ -33,7 +32,7 @@ function StudentList({ students }) {
             </thead>
             <tbody>
                 {
-                    filteredStudents.map((item, index) => <tr key={index}>
+                    filteredStudents.map((item, index) => <tr key={item.id}>
                         <td>{index + 1}</td>
                         <td>{item.name}</td>
                         <td>{item.age}</td>
@@ -41,6 +40,11 @@ function StudentList({ students }) {
                         <td>{item.gender}</td>
                         <td>{item.isPhysicallyDisabled ? 'Yes' : 'No'}</td>
                     </tr>)
+                }
+                {
+                    filteredStudents.length < 1 && <tr>
+                        <td colSpan={6}>No records found</td>
+                    </tr>
                 }
             </tbody>
         </table>
